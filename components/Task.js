@@ -2,11 +2,20 @@ import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function Task(props) {
+
+    console.log(props);
+
     return (
         <View style={styles.item}>
             <View style={styles.itemLeft}>
-                <View style={styles.square} />
-                <Text style={styles.itemText}>{props.text}</Text>
+                { props.priority === 1 &&
+                    <View style={styles.important} />
+                }
+                
+                <View>
+                    <Text style={styles.itemText}>{props.priority}</Text>
+                    <Text style={styles.itemText}>{props.description}</Text>
+                </View>
             </View>
             <View style={styles.circular}></View>
         </View>
@@ -21,19 +30,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 20,
+        marginBottom: 20,        
     },
     itemLeft: {  
         flexDirection: 'row',
         alignItems: 'center',
         flexWrap: 'wrap',
     },
-    square: {
+    important: {
         width: 24,
         height: 24,
-        backgroundColor: '#55bcf6',
+        backgroundColor: '#ed3315',
         borderRadius: 5,
-        opacity: 0.4,
         marginRight: 15,
     },
     itemText: {
