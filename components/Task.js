@@ -1,20 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import Entypo from '@expo/vector-icons/Entypo';
+import CheckBox from 'expo-checkbox';
+import IconBadge from 'react-native-icon-badge';
 
 export default function Task(props) {
-  console.log(props)
-  return (
-    <View style={styles.item}>
-      <View style={styles.itemLeft}>
-        {props.priority === 1 && <View style={styles.important} />}
-        <View>
-          <Text style={styles.itemText}>{props.title}</Text>
-          <Text style={styles.itemText}>{props.description}</Text>
+    const [isSelected, setIsSelected] = useState(false);
+
+    console.log(props)
+
+    return (
+        <View style={styles.item}>
+            <View style={styles.itemLeft}>      
+                <View style={styles.checkboxContainer}>
+                    <CheckBox style={styles.checkbox} value={isSelected} onValueChange={setIsSelected}/>   
+                    <Entypo name="dots-three-vertical" size={15} color="black" />        
+                    <Button title="Ola" />
+                </View>         
+                <View>
+                    <Text style={styles.itemText}>{props.title}</Text>
+                    <Text style={styles.itemText}>{props.description}</Text>
+                    <IconBadge 
+                        BadgeElement={ <Text style={{color:'#0b4577'}}>{props.priority}</Text> }
+                        IconBadgeStyle={{ width:90, height:20, backgroundColor: '#0088ff7a', borderRadius:5,} }
+                    />                    
+                </View>
+            </View>
+                      
         </View>
-      </View>
-      <View style={styles.circular}></View>
-    </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
@@ -28,26 +42,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   itemLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',
     flexWrap: 'wrap',
   },
-  important: {
+  checkboxContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  checkbox: {
     width: 24,
     height: 24,
-    backgroundColor: '#FF6347',
-    opacity: 0.4,
-    borderRadius: 5,
     marginRight: 15,
-  },
-  itemText: {
-    maxWidth: '80%',
-  },
-  circular: {
-    width: 12,
-    height: 12,
-    borderColor: '#55BCF6',
-    borderWidth: 2,
-    borderRadius: 5,
   },
 });

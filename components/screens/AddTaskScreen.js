@@ -9,15 +9,10 @@ const data = [
 ];
 
 export default function AddTaskScreen({ navigation }) {
-  const [task, setTask] = useState({
-    title: '',
-    description: '',
-    priority: '',
-  });
+  const [task, setTask] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
 
   const handleInputChange = (value, name) => {
-    console.log(value, name);
     setTask({ ...task, [name]: value });
   };
 
@@ -52,7 +47,7 @@ export default function AddTaskScreen({ navigation }) {
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
-          handleInputChange(item.value, 'priority');
+          handleInputChange(item.label, 'priority');
           setIsFocus(false);
         }}
       />
@@ -73,6 +68,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
+    borderRadius: 8,
     marginBottom: 10,
     paddingLeft: 8,
   },
