@@ -14,11 +14,10 @@ export default function Task(props) {
               <Text style={[styles.itemText, props.isCompleted && styles.itemTextCompleted]}>{props.title}</Text>
             </View>
             <TouchableOpacity style={styles.delete} onPress={() => props.onDelete(props.index)} hitSlop={{top: 20, bottom: 50, left: 50, right: 50}}>
-                <Ionicons name="trash-outline" size={24} color="white" />
+                <Ionicons name="trash-outline" size={20} color="white" />
             </TouchableOpacity>
           </View>
         </View>  
-
       </View>
     );
 }
@@ -57,8 +56,8 @@ const styles = StyleSheet.create({
     right: 10,
   },
   delete: {
-    width:35, 
-    height:35, 
+    width:30, 
+    height:30, 
     backgroundColor: '#b51111', 
     alignItems: 'center',
     borderRadius: 20,

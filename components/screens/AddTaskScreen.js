@@ -31,13 +31,6 @@ export default function AddTaskScreen({ navigation }) {
           placeholder={'Title task'}
           onChangeText={(text) => handleInputChange(text, 'title')}
         />
-        <TextInput
-          style={styles.input}
-          placeholder={'Description task'}
-          multiline={true}
-          numberOfLines={4}
-          onChangeText={(text) => handleInputChange(text, 'description')}
-        />
       </KeyboardAvoidingView>
 
       <Dropdown
@@ -50,7 +43,7 @@ export default function AddTaskScreen({ navigation }) {
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
-          handleInputChange(item.label, 'priority');
+          handleInputChange(item.value, 'priority');
           setIsFocus(false);
         }}
       />

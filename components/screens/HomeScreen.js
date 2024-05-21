@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Button, ScrollView, SafeAreaView, Text } from 'react-native';
-import { Dropdown } from 'react-native-element-dropdown';
 import Task from '../Task';
-
-const data = [
-  { label: 'To-do', value: '1' },
-  { label: 'Completed items:', value: '2' },
-];
 
 export default function HomeScreen({ navigation, route }) {
   const [tasks, setTasks] = useState([]);
@@ -37,7 +31,7 @@ export default function HomeScreen({ navigation, route }) {
         </View>
         <View style={styles.items}>
           {tasks.map((task, index) => (
-            <Task key={index} priority={task.priority} title={task.title} description={task.description} isCompleted={task.isCompleted} index={index} onDelete={handleDeleteTask} handleCompleteTask={handleCompleteTask} />
+            <Task key={index} priority={task.priority} title={task.title} isCompleted={task.isCompleted} index={index} onDelete={handleDeleteTask} handleCompleteTask={handleCompleteTask} />
           ))}
           </View>
         </View>        
