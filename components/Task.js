@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CheckBox from 'expo-checkbox';
 
@@ -10,23 +10,24 @@ export default function Task(props) {
 
     return (
       <View style={styles.item}>
-        <View style={styles.itemLeft}>      
+        <View style={styles.itemLeft}>  
+
           <View style={styles.checkboxContainer}>
             <CheckBox style={styles.checkbox} value={isSelected} onValueChange={setIsSelected}/>   
-            <TouchableHighlight onPress={() => props.onDelete(props.index)}>
-              <View style={styles.delete}>
+            <TouchableOpacity style={styles.delete} onPress={() => props.onDelete(props.index)} hitSlop={{top: 20, bottom: 50, left: 50, right: 50}}>
                 <Ionicons name="trash-outline" size={24} color="white" />
-              </View>
-            </TouchableHighlight>
-          </View>         
-          <View>
+            </TouchableOpacity>
+          </View>  
+
+          <View>            
+            <Text style={[styles.itemText, isSelected && styles.itemTextCompleted]}>{props.title}</Text>
+            <Text style={[styles.itemText, isSelected && styles.itemTextCompleted]}>{props.description}</Text>      
             <View style={styles.badge}>
               <Text style={{color:'#0b4577'}}>{props.priority === undefined ? "Low" : props.priority}</Text>
-            </View>
-            <Text style={[styles.itemText, isSelected && styles.itemTextCompleted]}>{props.title}</Text>
-            <Text style={[styles.itemText, isSelected && styles.itemTextCompleted]}>{props.description}</Text>                                     
+            </View>                               
           </View>
-        </View>   
+        </View>  
+
       </View>
     );
 }
@@ -44,10 +45,12 @@ const styles = StyleSheet.create({
   itemLeft: {
     flexDirection: 'column',
     flexWrap: 'wrap',
+    width: '100%',
   },
   checkboxContainer: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: 15,
+    top: 5,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
@@ -67,14 +70,15 @@ const styles = StyleSheet.create({
     borderRadius:5,
     alignItems: 'center',
     justifyContent: 'center',
-    bottom:10,
+    top: 5,
+    bottom:5,
   },
   delete: {
     width:35, 
     height:35, 
     backgroundColor: '#b51111', 
-    borderRadius:20,
     alignItems: 'center',
+    borderRadius: 20,
     justifyContent: 'center',
   },
 });

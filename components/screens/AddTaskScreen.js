@@ -13,11 +13,9 @@ export default function AddTaskScreen({ navigation }) {
   const [isFocus, setIsFocus] = useState(false);
 
   const handleInputChange = (value, name) => {
-
     if (name === 'priority' && value === "" ) {
-      value = "Low priority";
+      value = "Low priority"; 
     }
-
     setTask({ ...task, [name]: value });
   };
 

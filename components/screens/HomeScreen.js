@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Button, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Button, ScrollView, SafeAreaView, Text } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 import Task from '../Task';
+
+const data = [
+  { label: 'To-do', value: '1' },
+  { label: 'Completed items:', value: '2' },
+];
 
 export default function HomeScreen({ navigation, route }) {
   const [tasks, setTasks] = useState([]);
+  const [isFocus, setIsFocus] = useState(false);
   
   useEffect(() => {
     if (route.params?.newTask) {
@@ -17,19 +24,21 @@ export default function HomeScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView>        
         <View style={styles.taskWrapper}>
-          <View style={styles.items}>
-            {tasks.map((task, index) => (
-              <Task key={index} priority={task.priority} title={task.title} description={task.description} index={index} onDelete={handleDeleteTask} />
-            ))}
+        <View>
+          <Text>{'To-do items: ' + tasks.length}</Text>          
+        </View>
+        <View style={styles.items}>
+          {tasks.map((task, index) => (
+            <Task key={index} priority={task.priority} title={task.title} description={task.description} index={index} onDelete={handleDeleteTask} />
+          ))}
           </View>
-        </View>
-        
+        </View>        
       </ScrollView>
-        <View style={styles.addTask}>
-          <Button title="Add new task" onPress={() => navigation.navigate('AddTask')} />
-        </View>
+      <View style={styles.addTask}>
+        <Button title="Add new task" onPress={() => navigation.navigate('AddTask')} />
+      </View>
     </SafeAreaView>
   );
 }
@@ -44,7 +53,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   items: {
-    marginTop: 30,
+    marginTop: 20,
   },
   addTask: {
     position: 'absolute',
@@ -53,5 +62,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  dropdown: {
+    fontSize: 24,
+    fontWeight: 'bold'
   },
 });
