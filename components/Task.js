@@ -1,30 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CheckBox from 'expo-checkbox';
 
 export default function Task(props) {
-    const [isSelected, setIsSelected] = useState(false);
-
-    console.log(props);
-
     return (
       <View style={styles.item}>
-        <View style={styles.itemLeft}>  
-
+        <View style={styles.itemLeft}>            
           <View style={styles.checkboxContainer}>
-            <CheckBox style={styles.checkbox} value={isSelected} onValueChange={setIsSelected}/>   
+            <View style={styles.badge}></View>
+            <View style={styles.teste}>
+              <CheckBox style={styles.checkbox} value={props.isCompleted} onValueChange={() => props.handleCompleteTask(props.index)} />
+              <Text style={[styles.itemText, props.isCompleted && styles.itemTextCompleted]}>{props.title}</Text>
+            </View>
             <TouchableOpacity style={styles.delete} onPress={() => props.onDelete(props.index)} hitSlop={{top: 20, bottom: 50, left: 50, right: 50}}>
                 <Ionicons name="trash-outline" size={24} color="white" />
             </TouchableOpacity>
-          </View>  
-
-          <View>            
-            <Text style={[styles.itemText, isSelected && styles.itemTextCompleted]}>{props.title}</Text>
-            <Text style={[styles.itemText, isSelected && styles.itemTextCompleted]}>{props.description}</Text>      
-            <View style={styles.badge}>
-              <Text style={{color:'#0b4577'}}>{props.priority === undefined ? "Low" : props.priority}</Text>
-            </View>                               
           </View>
         </View>  
 
@@ -37,9 +28,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     padding: 15,
     borderRadius: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     marginBottom: 20,
   },
   itemLeft: {
@@ -49,9 +37,6 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: 'row',
-    marginBottom: 15,
-    top: 5,
-    alignItems: 'center',
     justifyContent: 'space-between',
   },
   checkbox: {
@@ -63,15 +48,13 @@ const styles = StyleSheet.create({
     textDecorationLine: 'line-through',
     color: 'gray',
   },
+  itemText: {
+    width: '78%'
+  },
   badge: {
-    width:90, 
-    height:20, 
+    width:10, 
     backgroundColor: '#0088ff7a', 
-    borderRadius:5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    top: 5,
-    bottom:5,
+    right: 10,
   },
   delete: {
     width:35, 
@@ -80,5 +63,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
     justifyContent: 'center',
+  },
+  teste:{
+    flexDirection: 'row',
+    top: 5,
   },
 });

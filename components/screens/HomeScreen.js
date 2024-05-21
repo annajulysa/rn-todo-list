@@ -10,16 +10,22 @@ const data = [
 
 export default function HomeScreen({ navigation, route }) {
   const [tasks, setTasks] = useState([]);
-  const [isFocus, setIsFocus] = useState(false);
   
   useEffect(() => {
     if (route.params?.newTask) {
-      setTasks([...tasks, route.params.newTask]);
+      setTasks([...tasks, { isCompleted: false, ...route.params.newTask }]);
     }
   }, [route.params?.newTask]);
 
   const handleDeleteTask = (index) => {
     setTasks(tasks.filter((_,i) => i !== index));
+  };
+
+  const handleCompleteTask = (index) => {
+    const updatedTasks = tasks.map((task, i) => 
+      i === index ? { ...task, isCompleted: !task.isCompleted } : task
+    );
+    setTasks(updatedTasks);
   };
 
   return (
@@ -31,7 +37,7 @@ export default function HomeScreen({ navigation, route }) {
         </View>
         <View style={styles.items}>
           {tasks.map((task, index) => (
-            <Task key={index} priority={task.priority} title={task.title} description={task.description} index={index} onDelete={handleDeleteTask} />
+            <Task key={index} priority={task.priority} title={task.title} description={task.description} isCompleted={task.isCompleted} index={index} onDelete={handleDeleteTask} handleCompleteTask={handleCompleteTask} />
           ))}
           </View>
         </View>        
@@ -62,9 +68,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-  },
-  dropdown: {
-    fontSize: 24,
-    fontWeight: 'bold'
   },
 });
