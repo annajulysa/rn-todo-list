@@ -11,13 +11,17 @@ export default function HomeScreen({ navigation, route }) {
     }
   }, [route.params?.newTask]);
 
+  const handleDeleteTask = (index) => {
+    setTasks(tasks.filter((_,i) => i !== index));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.taskWrapper}>
           <View style={styles.items}>
             {tasks.map((task, index) => (
-              <Task key={`todo-${index}`} priority={task.priority} title={task.title} description={task.description} />
+              <Task key={index} priority={task.priority} title={task.title} description={task.description} index={index} onDelete={handleDeleteTask} />
             ))}
           </View>
         </View>
