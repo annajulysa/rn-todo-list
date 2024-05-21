@@ -3,12 +3,21 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CheckBox from 'expo-checkbox';
 
+const priorityColors = {
+  1: '#FF6347', // Urgent
+  2: '#FFD700', // Medium priority
+  3: '#0088ff7a', // Low priority
+  default: '#0088ff7a' // Default 
+};
+
 export default function Task(props) {
+  const badgeColor = priorityColors[props.priority] || priorityColors.default;
+
     return (
       <View style={styles.item}>
         <View style={styles.itemLeft}>            
           <View style={styles.checkboxContainer}>
-            <View style={styles.badge}></View>
+          <View style={[styles.badge, { backgroundColor: badgeColor }]}></View>
             <View style={styles.teste}>
               <CheckBox style={styles.checkbox} value={props.isCompleted} onValueChange={() => props.handleCompleteTask(props.index)} />
               <Text style={[styles.itemText, props.isCompleted && styles.itemTextCompleted]}>{props.title}</Text>
@@ -52,7 +61,6 @@ const styles = StyleSheet.create({
   },
   badge: {
     width:10, 
-    backgroundColor: '#0088ff7a', 
     right: 10,
   },
   delete: {
