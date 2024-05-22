@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Button, ScrollView, SafeAreaView, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ScrollView, SafeAreaView, Text, TouchableOpacity } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import Todo from '../Todo';
 import NoTodo from '../NoTodo';
