@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Button, ScrollView, SafeAreaView, Text } from 'react-native';
+import { StyleSheet, View, Button, ScrollView, SafeAreaView, Text, TouchableOpacity } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import Todo from '../Todo';
 import NoTodo from '../NoTodo';
@@ -37,14 +37,22 @@ export default function HomeScreen({ navigation, route }) {
       <ScrollView>        
         <View style={styles.todoWrapper}>
           <View>
-            <Text>{'To-do items: ' + todos.length}</Text>     
-            <Dropdown style={styles.dropdown} data={filterOptions} maxHeight={300} labelField="label" valueField="value" placeholder="Filter todos" value={filter} onChange={item => setFilter(item.value)} />     
+            <Text>{'To-do items: ' + todos.length}</Text>  
+            <View style={styles.actions}>
+              <Dropdown style={styles.dropdown} data={filterOptions} maxHeight={300} labelField="label" valueField="value" placeholder="Filter todos" value={filter} onChange={item => setFilter(item.value)} />     
+              <TouchableOpacity style={styles.btn} >
+                <Text>Check All</Text>  
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btn} >
+                <Text>Delete All</Text>  
+              </TouchableOpacity>
+            </View>   
           </View>
           <View style={styles.items}>            
             { todos.length > 0 ? 
                 todos.map((todo, index) => (
                   (filter === "all" || todo.priority === filter) &&
-                    <Todo key={index} priority={todo.priority} title={todo.title} isCompleted={todo.isCompleted} index={index} onDelete={handleDeleteTodo} handleCompleteTodo={handleCompleteTodo} />
+                    <Todo key={todo.id} priority={todo.priority} title={todo.title} isCompleted={todo.isCompleted} index={index} onDelete={handleDeleteTodo} handleCompleteTodo={handleCompleteTodo} />
                 ))
               :
               <NoTodo />               
@@ -69,7 +77,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   items: {
-    marginTop: 20,
+    marginTop: 50,
   },
   addtodo: {
     position: 'absolute',
@@ -79,4 +87,26 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  actions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    top: 20,
+  },
+  dropdown: {
+    width: '50%',
+    marginRight: 5,
+    backgroundColor: 'white',
+    paddingHorizontal: 10,
+    borderRadius: 20
+  },
+  btn: {
+    borderRadius: 20,
+    backgroundColor: 'white',    
+    paddingHorizontal: 10,
+    marginRight: 5,
+    width: '23%',
+    height: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
