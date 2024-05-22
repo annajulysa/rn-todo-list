@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Button, ScrollView, SafeAreaView, Text } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import Task from '../Task';
+import NoTask from '../NoTask';
 
 const filterOptions = [
   { label: 'All', value: 'all' },
@@ -12,11 +13,7 @@ const filterOptions = [
 
 export default function HomeScreen({ navigation, route }) {
   const [tasks, setTasks] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState('all');
-
-  const filteredTasks = selectedFilter === 'all'
-    ? tasks
-    : tasks.filter(task => task.priority.toString() === selectedFilter);
+  const [filter, setFilter] = useState('all');
   
   useEffect(() => {
     if (route.params?.newTask) {
@@ -41,21 +38,17 @@ export default function HomeScreen({ navigation, route }) {
         <View style={styles.taskWrapper}>
           <View>
             <Text>{'To-do items: ' + tasks.length}</Text>     
-            <Dropdown
-                style={styles.dropdown}
-                data={filterOptions}
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder="Filter tasks"
-                value={selectedFilter}
-                onChange={item => setSelectedFilter(item.value)}
-              />     
+            <Dropdown style={styles.dropdown} data={filterOptions} maxHeight={300} labelField="label" valueField="value" placeholder="Filter tasks" value={filter} onChange={item => setFilter(item.value)} />     
           </View>
-          <View style={styles.items}>
-            {filteredTasks.map((task, index) => (
-              <Task key={index} priority={task.priority} title={task.title} isCompleted={task.isCompleted} index={index} onDelete={handleDeleteTask} onToggleComplete={handleCompleteTask} />
-            ))}
+          <View style={styles.items}>            
+            { tasks.length > 0 ? 
+                tasks.map((task, index) => (
+                  (filter === "all" || task.priority === filter) &&
+                    <Task key={index} priority={task.priority} title={task.title} isCompleted={task.isCompleted} index={index} onDelete={handleDeleteTask} handleCompleteTask={handleCompleteTask} />
+                ))
+              :
+              <NoTask />               
+            }
           </View>
         </View>        
       </ScrollView>
