@@ -5,16 +5,16 @@ import Todo from '../Todo';
 import NoTodo from '../NoTodo';
 
 const filterPriority = [
-  { label: 'All', value: 'all' },
+  { label: 'All Prioriy', value: 'all' },
   { label: 'Low Priority', value: '3' },
   { label: 'Medium Priority', value: '2' },
   { label: 'Urgent', value: '1' },
 ];
 
 const filterStatus = [
-  { label: 'All', value: 'all' },
-  { label: 'To do', value: '1' },
-  { label: 'Completed', value: '2' },
+  { label: 'All Status', value: 'all' },
+  { label: 'To Do', value: 'todo' },
+  { label: 'Completed', value: 'completed' },
 ];
 
 export default function HomeScreen({ navigation, route }) {
@@ -43,14 +43,21 @@ export default function HomeScreen({ navigation, route }) {
     const updatedTodos = todos.map(todo => {
         todo.isCompleted = true;
         return todo;
-    });
-    
+    });    
     setTodos(updatedTodos);
   }
 
   function deleteAllTodos() {
     setTodos(prevTodos => prevTodos.filter(todo => !todo.isCompleted));
   }
+
+  const filteredTodos = todos.filter(todo => {
+    const priority = filterP === "all" || todo.priority === filterP;
+    const status = filterS === "all" || 
+                  (filterS === "todo" && !todo.isCompleted) ||
+                  (filterS === "completed" && todo.isCompleted);
+    return priority && status;
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -60,7 +67,7 @@ export default function HomeScreen({ navigation, route }) {
             <Text>{'To-do items: ' + todos.length}</Text>  
             <View style={styles.actions}>
               <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> 
-              <Dropdown style={styles.dropdown} data={filterPriority} maxHeight={300} labelField="label" valueField="value" value={filterP} onChange={item => setFilterP(item.value)} />     
+                <Dropdown style={styles.dropdown} data={filterPriority} maxHeight={300} labelField="label" valueField="value" value={filterP} onChange={item => setFilterP(item.value)} />     
                 <Dropdown style={styles.dropdown} data={filterStatus} maxHeight={300} labelField="label" valueField="value" value={filterS} onChange={item => setFilterS(item.value)} />               
                 <TouchableOpacity style={styles.btn} onPress={completeAllTodos} hitSlop={{top: 50, bottom: 50, left: 10, right: 10}}><Text>Check All</Text></TouchableOpacity>
                 <TouchableOpacity style={styles.btn} onPress={deleteAllTodos} hitSlop={{top: 50, bottom: 50, left: 10, right: 10}}><Text>Clear</Text></TouchableOpacity>
@@ -69,8 +76,7 @@ export default function HomeScreen({ navigation, route }) {
           </View>
           <View style={styles.items}>            
             { todos.length > 0 ? 
-                todos.map((todo, index) => (
-                  (filterP === "all" || todo.priority === filterP) &&
+                filteredTodos.map((todo, index) => (
                     <Todo key={index} priority={todo.priority} title={todo.title} isCompleted={todo.isCompleted} index={index} onDelete={handleDeleteTodo} handleCompleteTodo={handleCompleteTodo} />
                 ))
               :
