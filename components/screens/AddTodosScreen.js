@@ -8,19 +8,19 @@ const data = [
   { label: 'Low priority', value: '3' },
 ];
 
-export default function AddTaskScreen({ navigation }) {
-  const [task, setTask] = useState([]);
+export default function AddTodosScreen({ navigation }) {
+  const [todo, setTodo] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
 
   const handleInputChange = (value, name) => {
     if (name === 'priority' && value === "" ) {
       value = "Low priority"; 
     }
-    setTask({ ...task, [name]: value });
+    setTodo({ ...todo, [name]: value });
   };
 
   const submitHandler = () => {
-    navigation.navigate('Home', { newTask: task });
+    navigation.navigate('Home', { newTodo: todo });
   };
 
   return (
@@ -28,7 +28,7 @@ export default function AddTaskScreen({ navigation }) {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <TextInput
           style={styles.input}
-          placeholder={'Title task'}
+          placeholder={'Title Todo'}
           onChangeText={(text) => handleInputChange(text, 'title')}
         />
       </KeyboardAvoidingView>
@@ -48,8 +48,8 @@ export default function AddTaskScreen({ navigation }) {
         }}
       />
 
-      <View style={styles.addTask}>
-        <Button title="Add task" onPress={submitHandler} />
+      <View style={styles.addTodo}>
+        <Button title="Add todo" onPress={submitHandler} />
       </View>
     </View>
   );
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     marginBottom: 10,
   },
-  addTask: {
+  addTodo: {
     marginTop: 20,
   },
 });

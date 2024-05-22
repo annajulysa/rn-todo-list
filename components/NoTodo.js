@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-export default function NoTask() {
+export default function NoTodo() {
     return (
       <View style={styles.noItem}>
         <FontAwesome name="sticky-note" size={90} color="white" />

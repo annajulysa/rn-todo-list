@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './components/screens/HomeScreen';
-import AddTaskScreen from './components/screens/AddTaskScreen';
+import AddTodosScreen from './components/screens/AddTodosScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -11,7 +11,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Today\'s to-do list' }} />
-        <Stack.Screen name="AddTask" component={AddTaskScreen} options={{ title: 'Add new task' }} />
+        <Stack.Screen name="AddTodo" component={AddTodosScreen} options={{ title: 'Add new task' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

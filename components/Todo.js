@@ -10,7 +10,7 @@ const priorityColors = {
   default: '#0088ff7a' // Default 
 };
 
-export default function Task(props) {
+export default function Todo(props) {
   const badgeColor = priorityColors[props.priority] || priorityColors.default;
 
     return (
@@ -19,7 +19,7 @@ export default function Task(props) {
           <View style={styles.checkboxContainer}>
           <View style={[styles.badge, { backgroundColor: badgeColor }]}></View>
             <View style={styles.teste}>
-              <CheckBox style={styles.checkbox} value={props.isCompleted} onValueChange={() => props.handleCompleteTask(props.index)} />
+              <CheckBox style={styles.checkbox} value={props.isCompleted} onValueChange={() => props.handleCompleteTodo(props.index)} />
               <Text style={[styles.itemText, props.isCompleted && styles.itemTextCompleted]}>{props.title}</Text>
             </View>
             <TouchableOpacity style={styles.delete} onPress={() => props.onDelete(props.index)} hitSlop={{top: 20, bottom: 50, left: 50, right: 50}}>
