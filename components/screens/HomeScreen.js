@@ -4,17 +4,24 @@ import { Dropdown } from 'react-native-element-dropdown';
 import Todo from '../Todo';
 import NoTodo from '../NoTodo';
 
-const filterOptions = [
+const filterPriority = [
   { label: 'All', value: 'all' },
   { label: 'Low Priority', value: '3' },
   { label: 'Medium Priority', value: '2' },
   { label: 'Urgent', value: '1' },
 ];
 
+const filterStatus = [
+  { label: 'All', value: 'all' },
+  { label: 'To do', value: '1' },
+  { label: 'Completed', value: '2' },
+];
+
 export default function HomeScreen({ navigation, route }) {
   const [todos, setTodos] = useState([]);
-  const [filter, setFilter] = useState('all');
-  
+  const [filterP, setFilterP] = useState('all');
+  const [filterS, setFilterS] = useState('all');
+
   useEffect(() => {
     if (route.params?.newTodo) {
       setTodos([...todos, { isCompleted: false, ...route.params.newTodo }]);
@@ -22,15 +29,28 @@ export default function HomeScreen({ navigation, route }) {
   }, [route.params?.newTodo]);
 
   const handleDeleteTodo = (index) => {
-    setTodos(todos.filter((_,i) => i !== index));
+    setTodos(todos.filter((_,i) => i !== index));    
   };
 
   const handleCompleteTodo = (index) => {
-    const updatedtodos = todos.map((todo, i) => 
+    const updatedTodos = todos.map((todo, i) => 
       i === index ? { ...todo, isCompleted: !todo.isCompleted } : todo
     );
-    setTodos(updatedtodos);
+    setTodos(updatedTodos);
   };
+
+  function completeAllTodos() {
+    const updatedTodos = todos.map(todo => {
+        todo.isCompleted = true;
+        return todo;
+    });
+    
+    setTodos(updatedTodos);
+  }
+
+  function deleteAllTodos() {
+    setTodos(prevTodos => prevTodos.filter(todo => !todo.isCompleted));
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,20 +59,19 @@ export default function HomeScreen({ navigation, route }) {
           <View>
             <Text>{'To-do items: ' + todos.length}</Text>  
             <View style={styles.actions}>
-              <Dropdown style={styles.dropdown} data={filterOptions} maxHeight={300} labelField="label" valueField="value" placeholder="Filter todos" value={filter} onChange={item => setFilter(item.value)} />     
-              <TouchableOpacity style={styles.btn} >
-                <Text>Check All</Text>  
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.btn} >
-                <Text>Delete All</Text>  
-              </TouchableOpacity>
-            </View>   
+              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> 
+              <Dropdown style={styles.dropdown} data={filterPriority} maxHeight={300} labelField="label" valueField="value" value={filterP} onChange={item => setFilterP(item.value)} />     
+                <Dropdown style={styles.dropdown} data={filterStatus} maxHeight={300} labelField="label" valueField="value" value={filterS} onChange={item => setFilterS(item.value)} />               
+                <TouchableOpacity style={styles.btn} onPress={completeAllTodos} hitSlop={{top: 50, bottom: 50, left: 10, right: 10}}><Text>Check All</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.btn} onPress={deleteAllTodos} hitSlop={{top: 50, bottom: 50, left: 10, right: 10}}><Text>Clear</Text></TouchableOpacity>
+              </ScrollView>        
+            </View>  
           </View>
           <View style={styles.items}>            
             { todos.length > 0 ? 
                 todos.map((todo, index) => (
-                  (filter === "all" || todo.priority === filter) &&
-                    <Todo key={todo.id} priority={todo.priority} title={todo.title} isCompleted={todo.isCompleted} index={index} onDelete={handleDeleteTodo} handleCompleteTodo={handleCompleteTodo} />
+                  (filterP === "all" || todo.priority === filterP) &&
+                    <Todo key={index} priority={todo.priority} title={todo.title} isCompleted={todo.isCompleted} index={index} onDelete={handleDeleteTodo} handleCompleteTodo={handleCompleteTodo} />
                 ))
               :
               <NoTodo />               
@@ -93,20 +112,20 @@ const styles = StyleSheet.create({
     top: 20,
   },
   dropdown: {
-    width: '50%',
     marginRight: 5,
     backgroundColor: 'white',
     paddingHorizontal: 10,
-    borderRadius: 20
+    borderRadius: 20,
+    width: 160,
   },
   btn: {
     borderRadius: 20,
     backgroundColor: 'white',    
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     marginRight: 5,
-    width: '23%',
+    width: 100,
     height: 35,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center'
   }
 });
