@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import CheckBox from 'expo-checkbox';
 
 const priorityColors = {
-  1: '#FF6347', // Urgent
+  1: '#c4314b', // Urgent
   2: '#FFD700', // Medium priority
   3: '#0088ff7a', // Low priority
   default: '#0088ff7a' // Default 

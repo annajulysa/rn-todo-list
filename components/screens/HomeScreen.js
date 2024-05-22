@@ -63,8 +63,6 @@ export default function HomeScreen({ navigation, route }) {
     <SafeAreaView style={styles.container}>
       <ScrollView>        
         <View style={styles.todoWrapper}>
-          <View>
-            <Text>{'To-do items: ' + todos.length}</Text>  
             <View style={styles.actions}>
               <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> 
                 <Dropdown style={styles.dropdown} data={filterPriority} maxHeight={300} labelField="label" valueField="value" value={filterP} onChange={item => setFilterP(item.value)} />     
@@ -73,7 +71,6 @@ export default function HomeScreen({ navigation, route }) {
                 <TouchableOpacity style={styles.btn} onPress={deleteAllTodos} hitSlop={{top: 50, bottom: 50, left: 10, right: 10}}><Text>Clear</Text></TouchableOpacity>
               </ScrollView>        
             </View>  
-          </View>
           <View style={styles.items}>            
             { todos.length > 0 ? 
                 filteredTodos.map((todo, index) => (
@@ -85,9 +82,6 @@ export default function HomeScreen({ navigation, route }) {
           </View>
         </View>        
       </ScrollView>
-      <View style={styles.addtodo}>
-        <Button title="Add new todo" onPress={() => navigation.navigate('AddTodo')} />
-      </View>
     </SafeAreaView>
   );
 }
@@ -103,14 +97,6 @@ const styles = StyleSheet.create({
   },
   items: {
     marginTop: 50,
-  },
-  addtodo: {
-    position: 'absolute',
-    bottom: 60,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
   },
   actions: {
     flexDirection: 'row',
