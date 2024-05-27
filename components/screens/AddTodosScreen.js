@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Button, View, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
+import Header from '../Header';
+
 
 const data = [
   { label: 'Urgent', value: '1' },
@@ -24,44 +27,49 @@ export default function AddTodosScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <TextInput
-          style={styles.input}
-          placeholder={'Title Todo'}
-          onChangeText={(text) => handleInputChange(text, 'title')}
+    <View>
+      <Header name={'Create new task'} navigation={navigation} buttonText={<Entypo name="home" size={20} color="white" />} screen={'Home'}></Header>
+      <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <TextInput
+            style={styles.input}
+            placeholder={'Title Todo'}
+            onChangeText={(text) => handleInputChange(text, 'title')}
+          />
+        </KeyboardAvoidingView>
+        <Dropdown
+          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          data={data}
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={'Select Priority'}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={(item) => {
+            handleInputChange(item.value, 'priority');
+            setIsFocus(false);
+          }}
         />
-      </KeyboardAvoidingView>
-
-      <Dropdown
-        style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-        data={data}
-        maxHeight={300}
-        labelField="label"
-        valueField="value"
-        placeholder={'Select Priority'}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
-        onChange={(item) => {
-          handleInputChange(item.value, 'priority');
-          setIsFocus(false);
-        }}
-      />
-
-      <View style={styles.addTodo}>
-        <Button title="Add todo" onPress={submitHandler} />
+        <View style={styles.addTodo}>
+          <Button title="Add todo" onPress={submitHandler} />
+        </View>
       </View>
     </View>
+
+    
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 20,
+    height: '100%',
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#e8eaed',
   },
   input: {
-    height: 40,
+    height: 50,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 8,

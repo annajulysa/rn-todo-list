@@ -3,6 +3,8 @@ import { StyleSheet, View, ScrollView, SafeAreaView, Text, TouchableOpacity } fr
 import { Dropdown } from 'react-native-element-dropdown';
 import Todo from '../Todo';
 import NoTodo from '../NoTodo';
+import Header from '../Header';
+
 
 const filterPriority = [
   { label: 'All Prioriy', value: 'all' },
@@ -60,9 +62,11 @@ export default function HomeScreen({ navigation, route }) {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>        
-        <View style={styles.todoWrapper}>
+    <View >
+      <Header name={'Today\'s to-do list'} navigation={navigation} buttonText={"+"} screen={'AddTodo'}></Header>
+      <SafeAreaView style={styles.container}>
+        <ScrollView>        
+          <View style={styles.todoWrapper}>
             <View style={styles.actions}>
               <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> 
                 <Dropdown style={styles.dropdown} data={filterPriority} maxHeight={300} labelField="label" valueField="value" value={filterP} onChange={item => setFilterP(item.value)} />     
@@ -71,24 +75,25 @@ export default function HomeScreen({ navigation, route }) {
                 <TouchableOpacity style={styles.btn} onPress={deleteAllTodos} hitSlop={{top: 50, bottom: 50, left: 10, right: 10}}><Text>Clear</Text></TouchableOpacity>
               </ScrollView>        
             </View>  
-          <View style={styles.items}>            
-            { todos.length > 0 ? 
-                filteredTodos.map((todo, index) => (
-                    <Todo key={index} priority={todo.priority} title={todo.title} isCompleted={todo.isCompleted} index={index} onDelete={handleDeleteTodo} handleCompleteTodo={handleCompleteTodo} />
-                ))
-              :
-              <NoTodo />               
-            }
-          </View>
-        </View>        
+            <View style={styles.items}>            
+              { todos.length > 0 ? 
+                  filteredTodos.map((todo, index) => (
+                      <Todo key={index} priority={todo.priority} title={todo.title} isCompleted={todo.isCompleted} index={index} onDelete={handleDeleteTodo} handleCompleteTodo={handleCompleteTodo} />
+                  ))
+                :
+                <NoTodo />               
+              }
+            </View>
+          </View>        
       </ScrollView>
     </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100%',
     backgroundColor: '#e8eaed',
   },
   todoWrapper: {
