@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView, SafeAreaView, Text, TouchableOpacity } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import Todo from '../Todo';
 import NoTodo from '../NoTodo';
 import Header from '../Header';
-
+import { TodosContext } from '../../context/TodosContext';
 
 const filterPriority = [
   { label: 'All Prioriy', value: 'all' },
@@ -20,7 +20,7 @@ const filterStatus = [
 ];
 
 export default function HomeScreen({ navigation, route }) {
-  const [todos, setTodos] = useState([]);
+  const { todos, setTodos }= useContext(TodosContext);
   const [filterP, setFilterP] = useState('all');
   const [filterS, setFilterS] = useState('all');
 

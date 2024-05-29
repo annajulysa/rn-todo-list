@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Button, View, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
 import Header from '../Header';
-
+import { TodosContext } from '../../context/TodosContext';
 
 const data = [
   { label: 'Urgent', value: '1' },
@@ -12,18 +12,20 @@ const data = [
 ];
 
 export default function AddTodosScreen({ navigation }) {
-  const [todo, setTodo] = useState([]);
+  const { setTodos }= useContext(TodosContext);
+  const [newTodo, setNewTodo] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
 
   const handleInputChange = (value, name) => {
     if (name === 'priority' && value === "" ) {
       value = "Low priority"; 
     }
-    setTodo({ ...todo, [name]: value });
+    setNewTodo({ ...newTodo, [name]: value });
   };
 
   const submitHandler = () => {
-    navigation.navigate('Home', { newTodo: todo });
+    setTodos(prevTodos => [...prevTodos, newTodo])
+    navigation.navigate('Home');
   };
 
   return (
@@ -56,8 +58,6 @@ export default function AddTodosScreen({ navigation }) {
         </View>
       </View>
     </View>
-
-    
   );
 }
 
